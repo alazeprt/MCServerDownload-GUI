@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="MinecraftServerDownload-GUI:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/MinecraftServerDownload_GUI_jar</output-path>
+    <root id="archive" name="MinecraftServerDownload-GUI.jar">
+      <element id="module-output" name="MinecraftServerDownload-GUI" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jsoup/jsoup/1.15.3/jsoup-1.15.3.jar" path-in-jar="/" />
+      <element id="library" level="project" name="Maven: org.jsoup:jsoup:1.15.3" />
+    </root>
+  </artifact>
+</component>
