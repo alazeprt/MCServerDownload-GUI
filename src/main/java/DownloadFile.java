@@ -4,10 +4,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -18,11 +21,17 @@ public class DownloadFile {
 
     }
     public String GetVersionDownloadURL(String version) {
+        Font defaultfont = new Font("Microsoft YaHei UI", Font.PLAIN, 16);
+        UIManager.put("OptionPane.buttonFont", defaultfont);
+        UIManager.put("OptionPane.messageFont", defaultfont);
         Elements alist = null;
         // 解析网页
         Document document = null;
         try {
             document = Jsoup.connect("https://getbukkit.org/download/vanilla").get();
+        } catch (UnknownHostException e) {
+            JOptionPane.showMessageDialog(null, "检测到你没有连接网络!请连接后重试!","错误",JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -41,6 +50,9 @@ public class DownloadFile {
             Document document2 = null;
             try {
                 document2 = Jsoup.connect(url2).get();
+            } catch (UnknownHostException e) {
+                JOptionPane.showMessageDialog(null, "检测到你没有连接网络!请连接后重试!","错误",JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
