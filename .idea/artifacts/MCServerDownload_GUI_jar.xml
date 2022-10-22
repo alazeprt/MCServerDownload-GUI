@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="MCServerDownload-GUI:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/MCServerDownload_GUI_jar</output-path>
+    <root id="archive" name="MCServerDownload-GUI.jar">
+      <element id="module-output" name="MCServerDownload-GUI" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jsoup/jsoup/1.15.3/jsoup-1.15.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/esotericsoftware/yamlbeans/yamlbeans/1.08/yamlbeans-1.08.jar" path-in-jar="/" />
+      <element id="library" level="project" name="Maven: org.jsoup:jsoup:1.15.3" />
+      <element id="library" level="project" name="Maven: com.esotericsoftware.yamlbeans:yamlbeans:1.08" />
+    </root>
+  </artifact>
+</component>
