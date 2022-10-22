@@ -2,9 +2,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFileChooser;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 import javax.swing.*;
 import javax.swing.plaf.OptionPaneUI;
 
@@ -18,13 +21,18 @@ public class GUI extends JFrame {
     GUI d3;
 
     public static void main(String[] args) throws IOException {
-        // 调用GUI
-        GUI d3 = new GUI();
+        // 初始化语言
+        LanguageReader a = new LanguageReader();
+        if(a.GetLanguage().equals("FileNotFound") && a.GetLanguage().equals("null")){
+            a.SetLanguage("en_us");
+        }
+        Map map = a.GetLanguageMessage(a.GetLanguage());
+        GUI b = new GUI(map);
     }
 
-    public GUI() throws IOException {
+    public GUI(Map map) throws IOException {
         // Main(this) 主体
-        this.setTitle("我的世界服务端下载器 - 由alazeprt编写");
+        this.setTitle(map.get("gui_title").toString());
         this.setSize(500,300);
         this.setLayout(new GridLayout(6,-1));
         int windowWidth = this.getWidth(); //获得窗口宽
@@ -42,14 +50,14 @@ public class GUI extends JFrame {
         // title 标题
         JPanel title2 = new JPanel();
         JLabel title = new JLabel();
-        title.setText("我的世界服务端下载器");
+        title.setText(map.get("title").toString());
         title.setFont(titlefont);
         title2.add(title);
         title.setVisible(true);
         this.add(title2);
         // server 选择框1
         jp1 = new JPanel();
-        jlb1 = new JLabel("请选择服务端: ");
+        jlb1 = new JLabel(map.get("choose_server").toString());
         jlb1.setFont(defaultfont);
         String[] server = {"Vanilla/原版"};
         jcb1 = new JComboBox(server);
@@ -60,7 +68,7 @@ public class GUI extends JFrame {
         this.add(jp1);
         // version_list 选择框2
         jp2 = new JPanel();
-        jlb2 = new JLabel("请选择版本: ");
+        jlb2 = new JLabel(map.get("choose_version").toString());
         jlb2.setFont(defaultfont);
         ArrayList vl = new InternetGet().GetVersionList();
         int size = vl.size();
@@ -73,11 +81,11 @@ public class GUI extends JFrame {
         this.add(jp2);
         // path 文本框1
         JPanel path_panel = new JPanel();
-        JLabel l1 = new JLabel("下载路径: ");
+        JLabel l1 = new JLabel(map.get("path").toString());
         l1.setFont(defaultfont);
         // file_choose 文件选择按钮
         JButton path_choose = new JButton();
-        path_choose.setText("浏览...");
+        path_choose.setText(map.get("choose_folder").toString());
         path_choose.setFont(smallfont);
         path.setFont(smallfont);
         path_panel.add(l1);
@@ -99,9 +107,12 @@ public class GUI extends JFrame {
         });
         // download 按钮
         JPanel button = new JPanel();
-        JButton download_button = new JButton("下载服务端");
+        JButton download_button = new JButton(map.get("download").toString());
         download_button.setFont(defaultfont);
         button.add(download_button);
+        JButton languageset = new JButton(map.get("setlang").toString());
+        languageset.setFont(defaultfont);
+        button.add(languageset);
         this.add(button);
         download_button.addActionListener(new ActionListener() {
             @Override
@@ -115,16 +126,101 @@ public class GUI extends JFrame {
                     UIManager.put("OptionPane.messageFont", defaultfont);
                     boolean a = download.DownloadNetFile(url, path.getText());
                     if(a == true){
-                        JOptionPane.showMessageDialog(null, "服务端下载成功!","提示",JOptionPane.PLAIN_MESSAGE);
+                        JOptionPane.showMessageDialog(null, map.get("complete").toString(),"提示",JOptionPane.PLAIN_MESSAGE);
                     }
                     else{
-                        JOptionPane.showMessageDialog(null, "服务端下载失败!请重试!","错误",JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, map.get("error").toString(),"错误",JOptionPane.ERROR_MESSAGE);
                     }
                 }
+            }
+        });
+        languageset.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SetLanguageFrame();
             }
         });
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
+
+    private void SetLanguageFrame(){
+        JFrame langset = new JFrame();
+        langset.setTitle("Setting Language...");
+        langset.setSize(400,200);
+        langset.setLayout(new GridLayout(4,-1));
+        int windowWidth = langset.getWidth(); //获得窗口宽
+        int windowHeight = langset.getHeight(); //获得窗口高
+        Toolkit kit = Toolkit.getDefaultToolkit(); //定义工具包
+        Dimension screenSize = kit.getScreenSize(); //获取屏幕的尺寸
+        int screenWidth = screenSize.width; //获取屏幕的宽
+        int screenHeight = screenSize.height; //获取屏幕的高
+        langset.setLocation(screenWidth / 2 - windowWidth / 2, screenHeight / 2 - windowHeight / 2);//设置窗口居中显示
+        langset.setVisible(true);
+        // 字体定义
+        Font titlefont = new Font("Microsoft YaHei UI", Font.BOLD, 20);
+        Font defaultfont = new Font("Microsoft YaHei UI", Font.PLAIN, 16);
+        // title2 标题
+        JPanel a = new JPanel();
+        JLabel title2 = new JLabel("Please Select Language");
+        title2.setFont(titlefont);
+        title2.setVisible(true);
+        a.add(title2);
+        langset.add(a);
+        // Combobox 语言选择
+        JPanel jp3 = new JPanel();
+        JLabel jlb3 = new JLabel("Please Select Language: ");
+        jlb3.setFont(defaultfont);
+        ArrayList vl = new LanguageReader().GetLanguageList();
+        ArrayList<String> vls = new ArrayList<>();
+        vls.add("");
+        for(Object v : vl){
+            File tempfile = new File(v.toString().trim());
+            String fileName = tempfile.getName().replace(".yml","");
+            vls.add(fileName);
+        }
+        int size = vl.size();
+        String[] vlist = (String[])vls.toArray(new String[size]);;
+        JComboBox jcb3 = new JComboBox(vlist);
+        jcb3.setFont(defaultfont);
+        jp3.setFont(defaultfont);
+        jp3.add(jlb3);
+        jp3.add(jcb3);
+        langset.add(jp3);
+        jcb3.addItemListener(new ItemListener() {
+            int j=0;
+            @Override
+            public void itemStateChanged(ItemEvent e){
+                if(j==0){
+                    j++;
+                    JPanel changetemp2 = new JPanel();
+                    LanguageReader a = new LanguageReader();
+                    try{
+                        String choose = (String) jcb3.getSelectedItem();
+                        a.SetLanguage(choose);
+                    } catch (IOException e2){
+                        e2.printStackTrace();
+                    }
+                    System.exit(0);
+                }
+
+            }
+        });
+        // 2个文本框
+        JPanel psp1 = new JPanel();
+        JPanel psp2 = new JPanel();
+        JLabel ps = new JLabel("Note: The program will be automatically closed");
+        JLabel ps2 = new JLabel("after you switch languages. Please restart manually");
+        ps.setFont(defaultfont);
+        ps2.setFont(defaultfont);
+        ps.setVisible(true);
+        ps2.setVisible(true);
+        psp1.add(ps);
+        psp2.add(ps2);
+        langset.add(psp1);
+        langset.add(psp2);
+    }
+
+
 }

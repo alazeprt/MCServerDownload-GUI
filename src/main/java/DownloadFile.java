@@ -51,7 +51,7 @@ public class DownloadFile {
             try {
                 document2 = Jsoup.connect(url2).get();
             } catch (UnknownHostException e) {
-                JOptionPane.showMessageDialog(null, "检测到你没有连接网络!请连接后重试!","错误",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "It is detected that you are not connected to the network! Please connect and try again!","错误",JOptionPane.ERROR_MESSAGE);
                 e.printStackTrace();
             } catch (IOException e) {
                 throw new RuntimeException(e);

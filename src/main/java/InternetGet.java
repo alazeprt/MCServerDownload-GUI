@@ -19,7 +19,7 @@ public class InternetGet {
         try {
             document = Jsoup.connect("https://getbukkit.org/download/vanilla").get();
         } catch (UnknownHostException ex){
-            JOptionPane.showMessageDialog(null, "检测到你没有连接网络!请连接后重试!","错误",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "It is detected that you are not connected to the network! Please connect and try again!","错误",JOptionPane.ERROR_MESSAGE);
             System.exit(0);
         } catch (IOException e) {
             throw new RuntimeException(e);
