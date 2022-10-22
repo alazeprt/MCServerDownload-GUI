@@ -23,7 +23,7 @@ public class GUI extends JFrame {
     public static void main(String[] args) throws IOException {
         // 初始化语言
         LanguageReader a = new LanguageReader();
-        if(a.GetLanguage().equals("FileNotFound") && a.GetLanguage().equals("null")){
+        if(a.GetLanguage().equals("null")){
             a.SetLanguage("en_us");
         }
         Map map = a.GetLanguageMessage(a.GetLanguage());

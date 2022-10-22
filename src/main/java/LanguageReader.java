@@ -28,7 +28,7 @@ public class LanguageReader {
     public String GetLanguage() throws IOException{
         File a = new File("./src/main/java/language.yml");
         if(!a.exists()){
-            return "FileNotFound";
+            return "null";
         }
         FileReader b = new FileReader(a);
         YamlReader language = new YamlReader(b);
