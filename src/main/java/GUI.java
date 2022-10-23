@@ -23,6 +23,9 @@ public class GUI extends JFrame {
     public static void main(String[] args) throws IOException {
         // 初始化语言
         LanguageReader a = new LanguageReader();
+        if(a.GetLanguageList().size() == 0){
+            a.WriteLanguage();
+        }
         if(a.GetLanguage().equals("null")){
             a.SetLanguage("en_us");
         }
