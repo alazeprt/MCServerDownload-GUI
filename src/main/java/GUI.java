@@ -29,6 +29,11 @@ public class GUI extends JFrame {
         if(a.GetLanguage().equals("null")){
             a.SetLanguage("en_us");
         }
+        ArrayList g = a.GetLanguageInfo(a.GetLanguage());
+        if(!g.get(1).equals("1.1.0")){
+            a.WriteLanguage();
+            a.SetLanguage("en_us");
+        }
         Map map = a.GetLanguageMessage(a.GetLanguage());
         GUI b = new GUI(map);
     }
