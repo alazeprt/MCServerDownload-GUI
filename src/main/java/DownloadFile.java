@@ -20,7 +20,7 @@ public class DownloadFile {
     public DownloadFile(){
 
     }
-    public String GetVersionDownloadURL(String version) {
+    public String GetVersionDownloadURL(String version, String server) {
         Font defaultfont = new Font("Microsoft YaHei UI", Font.PLAIN, 16);
         UIManager.put("OptionPane.buttonFont", defaultfont);
         UIManager.put("OptionPane.messageFont", defaultfont);
@@ -28,7 +28,7 @@ public class DownloadFile {
         // 解析网页
         Document document = null;
         try {
-            document = Jsoup.connect("https://getbukkit.org/download/vanilla").get();
+            document = Jsoup.connect("https://getbukkit.org/download/" + server).get();
         } catch (UnknownHostException e) {
             JOptionPane.showMessageDialog(null, "检测到你没有连接网络!请连接后重试!","错误",JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();

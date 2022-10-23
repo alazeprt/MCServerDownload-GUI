@@ -1,3 +1,5 @@
+import jnr.ffi.annotations.In;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -35,10 +37,12 @@ public class GUI extends JFrame {
             a.SetLanguage("en_us");
         }
         Map map = a.GetLanguageMessage(a.GetLanguage());
-        GUI b = new GUI(map);
+        Object server_list_o = map.get("server_list");
+        Map server_list = (Map) server_list_o;
+        GUI b = new GUI(map,server_list);
     }
 
-    public GUI(Map map) throws IOException {
+    public GUI(Map map, Map server_list) throws IOException {
         // Main(this) 主体
         this.setTitle(map.get("gui_title").toString());
         this.setSize(500,300);
@@ -67,7 +71,11 @@ public class GUI extends JFrame {
         jp1 = new JPanel();
         jlb1 = new JLabel(map.get("choose_server").toString());
         jlb1.setFont(defaultfont);
-        String[] server = {"Vanilla/原版"};
+        ArrayList<String> server_array = new ArrayList<>();
+        for(Object value : server_list.values()){
+            server_array.add(value.toString());
+        }
+        String[] server = server_array.toArray(new String[server_array.size()]);
         jcb1 = new JComboBox(server);
         jcb1.setFont(smallfont);
         jp1.setFont(defaultfont);
@@ -78,7 +86,7 @@ public class GUI extends JFrame {
         jp2 = new JPanel();
         jlb2 = new JLabel(map.get("choose_version").toString());
         jlb2.setFont(defaultfont);
-        ArrayList vl = new InternetGet().GetVersionList();
+        ArrayList vl = new InternetGet().GetVersionList("vanilla");
         int size = vl.size();
         String[] vlist = (String[])vl.toArray(new String[size]);
         jcb2 = new JComboBox(vlist);
@@ -87,6 +95,20 @@ public class GUI extends JFrame {
         jp2.add(jlb2);
         jp2.add(jcb2);
         this.add(jp2);
+        jcb1.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                for(Object object : server_list.keySet()){
+                    if(server_list.get(object) == (String) jcb1.getSelectedItem()){
+                        ArrayList vl = new InternetGet().GetVersionList((String) object);
+                        jcb2.removeAllItems();
+                        for(Object version : vl){
+                            jcb2.addItem(version);
+                        }
+                    }
+                }
+            }
+        });
         // path 文本框1
         JPanel path_panel = new JPanel();
         JLabel l1 = new JLabel(map.get("path").toString());
@@ -125,10 +147,17 @@ public class GUI extends JFrame {
         download_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String jcbs1 = null;
                 String download_version = (String) jcb2.getSelectedItem();
+                for(Object object : server_list.keySet()){
+                    if(server_list.get(object) == (String) jcb1.getSelectedItem()){
+                        jcbs1 = object.toString();
+                    }
+                }
+                String download_server = jcbs1;
                 DownloadFile download = new DownloadFile();
                 String url = null;
-                url = download.GetVersionDownloadURL(download_version);
+                url = download.GetVersionDownloadURL(download_version, download_server);
                 if(!url.equals(null)){
                     UIManager.put("OptionPane.buttonFont", defaultfont);
                     UIManager.put("OptionPane.messageFont", defaultfont);

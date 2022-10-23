@@ -13,11 +13,11 @@ public class InternetGet {
     public InternetGet(){
 
     }
-    public ArrayList GetVersionList() {
+    public ArrayList GetVersionList(String server) {
         // 解析网页
         Document document = null;
         try {
-            document = Jsoup.connect("https://getbukkit.org/download/vanilla").get();
+            document = Jsoup.connect("https://getbukkit.org/download/" + server).get();
         } catch (UnknownHostException ex){
             JOptionPane.showMessageDialog(null, "It is detected that you are not connected to the network! Please connect and try again!","错误",JOptionPane.ERROR_MESSAGE);
             System.exit(0);

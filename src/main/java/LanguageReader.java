@@ -109,6 +109,7 @@ public class LanguageReader {
                 "  choose_server: \"请选择服务端: \"\n" +
                 "  server_list:\n" +
                 "    vanilla: \"原版服务端\"\n" +
+                "    craftbukkit: \"CraftBukkit服务端\"\n" +
                 "  choose_version: \"请选择版本: \"\n" +
                 "  path: \"下载路径: \"\n" +
                 "  choose_folder: \"浏览...\"\n" +
@@ -124,7 +125,7 @@ public class LanguageReader {
                 "  choose_server: \"Please Select Server: \"\n" +
                 "  server_list:\n" +
                 "    vanilla: \"Vanilla\"\n" +
-                "    bukkit: \"CraftBukkit\"\n" +
+                "    craftbukkit: \"CraftBukkit\"\n" +
                 "  choose_version: \"Please Select Version: \"\n" +
                 "  path: \"Download Path: \"\n" +
                 "  choose_folder: \"Browse...\"\n" +
