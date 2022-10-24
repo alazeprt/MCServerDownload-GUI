@@ -19,7 +19,6 @@ public class DownloadFileWithThreadPool {
             if (i == poolLength - 1) {
                 end = len;
             }
-            System.out.println(start+"---------------"+end);
             DownloadWithRange download = new DownloadWithRange(urlLocation, filePath, start, end);
             threadPool.execute(download);
         }
