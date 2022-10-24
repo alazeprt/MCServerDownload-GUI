@@ -1,4 +1,6 @@
 
+import Download.DownloadFileWithThreadPool;
+import Download.DownloadWithRange;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -65,43 +67,21 @@ public class DownloadFile {
     }
     public boolean DownloadNetFile(String urls,String path) {
         // 下载网络文件
-        int bytesum = 0;
-        int byteread = 0;
-
-
-        URL url = null;
-        try {
-            url = new URL(urls);
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
+        String pathfilename = null;
+        char a = path.charAt(path.length() - 1);
+        if(a == '/'){
+            pathfilename = path + "server.jar";
         }
-
+        else if(a == '\\'){
+            pathfilename = path + "server.jar";
+        }
+        else{
+            pathfilename = path + "/server.jar";
+        }
+        DownloadFileWithThreadPool pool = new DownloadFileWithThreadPool();
         try {
-            URLConnection conn = url.openConnection();
-            InputStream inStream = conn.getInputStream();
-            String pathfilename = null;
-            char a = path.charAt(path.length() - 1);
-            if(a == '/'){
-                pathfilename = path + "server.jar";
-            }
-            else if(a == '\\'){
-                pathfilename = path + "server.jar";
-            }
-            else{
-                pathfilename = path + "/server.jar";
-            }
-            FileOutputStream fs = new FileOutputStream(pathfilename);
-            byte[] buffer = new byte[1204];
-            int length;
-            while ((byteread = inStream.read(buffer)) != -1) {
-                bytesum += byteread;
-                fs.write(buffer, 0, byteread);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return false;
+            pool.getFileWithThreadPool(urls, pathfilename, 100);
         } catch (IOException e) {
-            e.printStackTrace();
             return false;
         }
         return true;
