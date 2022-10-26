@@ -111,6 +111,7 @@ public class LanguageReader {
                 "    vanilla: \"原版服务端\"\n" +
                 "    craftbukkit: \"CraftBukkit服务端\"\n" +
                 "    spigot: \"Spigot服务端\"\n" +
+                "    paper: \"Paper服务端\"\n" +
                 "  choose_version: \"请选择版本: \"\n" +
                 "  path: \"下载路径: \"\n" +
                 "  choose_folder: \"浏览...\"\n" +
@@ -128,6 +129,7 @@ public class LanguageReader {
                 "    vanilla: \"Vanilla\"\n" +
                 "    craftbukkit: \"CraftBukkit\"\n" +
                 "    spigot: \"Spigot\"\n" +
+                "    paper: \"Paper\"\n" +
                 "  choose_version: \"Please Select Version: \"\n" +
                 "  path: \"Download Path: \"\n" +
                 "  choose_folder: \"Browse...\"\n" +
