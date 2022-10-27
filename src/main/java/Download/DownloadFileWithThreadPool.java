@@ -12,7 +12,6 @@ public class DownloadFileWithThreadPool {
         ExecutorService threadPool = Executors.newCachedThreadPool();
 
         long len = getContentLength(urlLocation);
-        System.out.println(len);
         for (int i = 0; i < poolLength; i++) {
             long start = i * len / poolLength;
             long end = (i + 1) * len / poolLength - 1;
