@@ -58,6 +58,10 @@ public class DownloadFile {
             String url = "https://api.papermc.io/v2/projects/paper/versions/" + version + "/builds/" + maxnum + "/downloads/" + filename;
             return url;
         }
+        else if(server.equals("purpur")){
+            String url = "https://api.purpurmc.org/v2/purpur/" + version + "/latest/download";
+            return url;
+        }
         Font defaultfont = new Font("Microsoft YaHei UI", Font.PLAIN, 16);
         UIManager.put("OptionPane.buttonFont", defaultfont);
         UIManager.put("OptionPane.messageFont", defaultfont);

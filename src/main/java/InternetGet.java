@@ -40,6 +40,28 @@ public class InternetGet {
             Object d = c.get("versions");
             ArrayList e = new ArrayList((ArrayList) d);
             return e;
+        } else if(server.equals("purpur")){
+            Document document = null;
+            try{
+                document = Jsoup.connect("https://api.purpurmc.org/v2/purpur").ignoreContentType(true).get();
+            } catch (UnknownHostException ex){
+                JOptionPane.showMessageDialog(null, "It is detected that you are not connected to the network! Please connect and try again!","错误",JOptionPane.ERROR_MESSAGE);
+                System.exit(0);
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+            Elements body = document.getElementsByTag("body");
+            YamlReader a = new YamlReader(body.text());
+            Object b = null;
+            try {
+                b = a.read();
+            } catch (YamlException e) {
+                throw new RuntimeException(e);
+            }
+            Map c = (Map) b;
+            Object d = c.get("versions");
+            ArrayList e = new ArrayList((ArrayList) d);
+            return e;
         }
         // 解析网页
         Document document = null;

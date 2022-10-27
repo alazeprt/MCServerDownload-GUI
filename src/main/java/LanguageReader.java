@@ -102,7 +102,7 @@ public class LanguageReader {
 
     public void WriteLanguage() throws IOException{
         String zh_cn = "Language: \"zh_cn\"\n" +
-                "version: 1.2.0\n" +
+                "version: 1.3.0\n" +
                 "Message:\n" +
                 "  gui_title: \"我的世界服务端下载器 - 由alazeprt编写\"\n" +
                 "  title: \"我的世界服务端下载器\"\n" +
@@ -112,6 +112,7 @@ public class LanguageReader {
                 "    craftbukkit: \"CraftBukkit服务端\"\n" +
                 "    spigot: \"Spigot服务端\"\n" +
                 "    paper: \"Paper服务端\"\n" +
+                "    purpur: \"Purpur服务端\"\n" +
                 "  choose_version: \"请选择版本: \"\n" +
                 "  path: \"下载路径: \"\n" +
                 "  choose_folder: \"浏览...\"\n" +
@@ -120,7 +121,7 @@ public class LanguageReader {
                 "  complete: \"服务端下载成功!\"\n" +
                 "  error: \"服务端下载失败!请重试!\"";
         String en_us = "Language: \"en_us\"\n" +
-                "version: 1.2.0\n" +
+                "version: 1.3.0\n" +
                 "Message:\n" +
                 "  gui_title: \"Minecraft Server Download - Written By alazeprt\"\n" +
                 "  title: \"Minecraft Server Download\"\n" +
@@ -130,6 +131,7 @@ public class LanguageReader {
                 "    craftbukkit: \"CraftBukkit\"\n" +
                 "    spigot: \"Spigot\"\n" +
                 "    paper: \"Paper\"\n" +
+                "    purpur: \"Purpur\"\n" +
                 "  choose_version: \"Please Select Version: \"\n" +
                 "  path: \"Download Path: \"\n" +
                 "  choose_folder: \"Browse...\"\n" +
