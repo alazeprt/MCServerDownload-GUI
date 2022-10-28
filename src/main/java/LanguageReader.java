@@ -108,11 +108,11 @@ public class LanguageReader {
                 "  title: \"我的世界服务端下载器\"\n" +
                 "  choose_server: \"请选择服务端: \"\n" +
                 "  server_list:\n" +
-                "    vanilla: \"原版服务端\"\n" +
-                "    craftbukkit: \"CraftBukkit服务端\"\n" +
-                "    spigot: \"Spigot服务端\"\n" +
-                "    paper: \"Paper服务端\"\n" +
-                "    purpur: \"Purpur服务端\"\n" +
+                "    vanilla: \"原版端 - 原版服务端\"\n" +
+                "    craftbukkit: \"插件端 - CraftBukkit服务端\"\n" +
+                "    spigot: \"插件端 - Spigot服务端\"\n" +
+                "    paper: \"插件端 - Paper服务端\"\n" +
+                "    purpur: \"插件端 - Purpur服务端\"\n" +
                 "  choose_version: \"请选择版本: \"\n" +
                 "  path: \"下载路径: \"\n" +
                 "  choose_folder: \"浏览...\"\n" +
@@ -127,11 +127,11 @@ public class LanguageReader {
                 "  title: \"Minecraft Server Download\"\n" +
                 "  choose_server: \"Please Select Server: \"\n" +
                 "  server_list:\n" +
-                "    vanilla: \"Vanilla\"\n" +
-                "    craftbukkit: \"CraftBukkit\"\n" +
-                "    spigot: \"Spigot\"\n" +
-                "    paper: \"Paper\"\n" +
-                "    purpur: \"Purpur\"\n" +
+                "    vanilla: \"Vanilla - Vanilla\"\n" +
+                "    craftbukkit: \"Plugins - CraftBukkit\"\n" +
+                "    spigot: \"Plugins - Spigot\"\n" +
+                "    paper: \"Plugins - Paper\"\n" +
+                "    purpur: \"Plugins - Purpur\"\n" +
                 "  choose_version: \"Please Select Version: \"\n" +
                 "  path: \"Download Path: \"\n" +
                 "  choose_folder: \"Browse...\"\n" +
