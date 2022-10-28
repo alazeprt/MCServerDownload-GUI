@@ -18,6 +18,46 @@ public class InternetGet {
 
     }
     public ArrayList GetVersionList(String server) {
+        if(server.contains("pufferfish")){
+            ArrayList<String> pfp_pp = new ArrayList<>();
+            ArrayList<String> pf_pp = new ArrayList<>();
+            ArrayList<String> pfp = new ArrayList<>();
+            ArrayList<String> pf = new ArrayList<>();
+            Document document = null;
+            try {
+                document = Jsoup.connect("https://ci.pufferfish.host/").ignoreContentType(true).get();
+            } catch (UnknownHostException e) {
+                JOptionPane.showMessageDialog(null, "检测到你没有连接网络!请连接后重试!","错误",JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Element body = document.getElementById("projectstatus");
+            Elements a = body.getElementsByClass("jenkins-table__link model-link inside");
+            Document a2 = Jsoup.parse(a.toString());
+            Elements b = a2.getElementsByTag("a");
+            for(Element c : b){
+                String d = c.attr("href");
+                if(d.contains("PufferfishPlus") && d.contains("Purpur")){
+                    pfp_pp.add(d.replace("job/PufferfishPlus-","").replace("-Purpur/",""));
+                } else if(d.contains("Purpur")){
+                    pf_pp.add(d.replace("job/Pufferfish-Purpur-","").replace("/",""));
+                } else if(d.contains("PufferfishPlus")){
+                    pfp.add(d.replace("job/PufferfishPlus-","").replace("/",""));
+                } else{
+                    pf.add(d.replace("job/Pufferfish-","").replace("/",""));
+                }
+            }
+            if(server.equals("pufferfish")){
+                return pf;
+            } else if(server.equals("pufferfish_purpur")){
+                return pf_pp;
+            } else if(server.equals("pufferfishplus")){
+                return pfp;
+            } else if(server.equals("pufferfishplus_purpur")){
+                return pfp_pp;
+            }
+        }
         if(server.equals("paper")){
             Document document = null;
             try {

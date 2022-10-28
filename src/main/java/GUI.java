@@ -32,7 +32,7 @@ public class GUI extends JFrame {
             a.SetLanguage("en_us");
         }
         ArrayList g = a.GetLanguageInfo(a.GetLanguage());
-        if(!g.get(1).equals("1.3.0")){
+        if(!g.get(1).equals("1.4.0")){
             a.WriteLanguage();
             a.SetLanguage("en_us");
         }

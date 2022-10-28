@@ -22,6 +22,87 @@ public class DownloadFile {
 
     }
     public String GetVersionDownloadURL(String version, String server) {
+        if(server.contains("pufferfish")){
+            // 先获取url前缀
+            ArrayList<String> pfp_pp = new ArrayList<>();
+            ArrayList<String> pf_pp = new ArrayList<>();
+            ArrayList<String> pfp = new ArrayList<>();
+            ArrayList<String> pf = new ArrayList<>();
+            Document document = null;
+            try {
+                document = Jsoup.connect("https://ci.pufferfish.host/").ignoreContentType(true).get();
+            } catch (UnknownHostException e) {
+                JOptionPane.showMessageDialog(null, "检测到你没有连接网络!请连接后重试!","错误",JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Element body = document.getElementById("projectstatus");
+            Elements a = body.getElementsByClass("jenkins-table__link model-link inside");
+            Document a2 = Jsoup.parse(a.toString());
+            Elements b = a2.getElementsByTag("a");
+            for(Element c : b){
+                String d = c.attr("href");
+                if(d.contains("PufferfishPlus") && d.contains("Purpur") && d.contains(version)){
+                    pfp_pp.add(d);
+                } else if(d.contains("Purpur") && d.contains(version)){
+                    pf_pp.add(d);
+                } else if(d.contains("PufferfishPlus") && d.contains(version)){
+                    pfp.add(d);
+                } else if(d.contains("Pufferfish") && d.contains(version)){
+                    pf.add(d);
+                }
+            }
+            String url = null;
+            if(server.equals("pufferfish")){
+                url = "https://ci.pufferfish.host/" + pf.get(0) + "lastSuccessfulBuild/artifact/";
+            } else if(server.equals("pufferfishplus")){
+                url = "https://ci.pufferfish.host/" + pfp.get(0) + "lastSuccessfulBuild/artifact/";
+            } else if(server.equals("pufferfish_purpur")){
+                url = "https://ci.pufferfish.host/" + pf_pp.get(0) + "lastSuccessfulBuild/artifact/";
+            } else if(server.equals("pufferfishplus_purpur")){
+                url = "https://ci.pufferfish.host/" + pfp_pp.get(0) + "lastSuccessfulBuild/artifact/";
+            }
+            Document document2 = null;
+            try {
+                document2 = Jsoup.connect(url).get();
+            } catch (UnknownHostException e) {
+                JOptionPane.showMessageDialog(null, "检测到你没有连接网络!请连接后重试!","错误",JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Elements data = null;
+            Element main_panel = document2.getElementById("main-panel");
+            Elements url2 = main_panel.getElementsByTag("a");
+            String content = url2.toString();
+            String downloadurl = null;
+            boolean add = false;
+            if(content.contains("build/libs") && content.contains("./*zip*/archive.zip")){
+                add = true;
+                url = url + "build/libs/";
+                Document document3 = null;
+                try {
+                    document3 = Jsoup.connect(url).get();
+                } catch (UnknownHostException e) {
+                    JOptionPane.showMessageDialog(null, "检测到你没有连接网络!请连接后重试!","错误",JOptionPane.ERROR_MESSAGE);
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                Element main_panel_2 = document3.getElementById("main-panel");
+                Elements url3 = main_panel_2.getElementsByTag("a");
+                data = url3;
+            } else{
+                data = url2;
+            }
+            for(Element data1 : data){
+                if(data1.attr("href").toLowerCase().contains("pufferfish") && data1.attr("href").endsWith(".jar")){
+                    downloadurl = url + data1.attr("href");
+                }
+            }
+            return downloadurl;
+        }
         if(server.equals("paper")){
             // 爬取https://api.papermc.io/v2/projects/paper/versions/1.16.5查看构建列表,查找最新构建
             Font defaultfont = new Font("Microsoft YaHei UI", Font.PLAIN, 16);
@@ -53,7 +134,6 @@ public class DownloadFile {
                     maxnum = k;
                 }
             }
-            System.out.println(maxnum);
             String filename = "paper-" + version + "-" + String.valueOf(maxnum) + ".jar";
             String url = "https://api.papermc.io/v2/projects/paper/versions/" + version + "/builds/" + maxnum + "/downloads/" + filename;
             return url;
@@ -119,7 +199,7 @@ public class DownloadFile {
         }
         DownloadFileWithThreadPool pool = new DownloadFileWithThreadPool();
         try {
-            pool.getFileWithThreadPool(urls, pathfilename, 100);
+            pool.getFileWithThreadPool(urls, pathfilename, 1);
         } catch (IOException e) {
             return false;
         }
