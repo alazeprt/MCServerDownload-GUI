@@ -18,6 +18,23 @@ public class InternetGet {
 
     }
     public ArrayList GetVersionList(String server) {
+        if(server.equals("catserver")){
+            ArrayList<String> vlist = new ArrayList<>();
+            Document cat = null;
+            try {
+                cat = Jsoup.connect("https://jenkins.rbqcloud.cn:30011").get();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Element list = cat.getElementById("projectstatus");
+            Elements tr = list.getElementsByTag("tr");
+            for(Element chose : tr){
+                if(!(chose.getElementsByTag("tr").attr("id")).isEmpty()){
+                    vlist.add(chose.getElementsByTag("tr").attr("id").replace("job_CatServer-",""));
+                }
+            }
+            return vlist;
+        }
         if(server.contains("pufferfish")){
             ArrayList<String> pfp_pp = new ArrayList<>();
             ArrayList<String> pf_pp = new ArrayList<>();
