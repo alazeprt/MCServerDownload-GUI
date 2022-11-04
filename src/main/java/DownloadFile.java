@@ -22,6 +22,22 @@ public class DownloadFile {
 
     }
     public String GetVersionDownloadURL(String version, String server) {
+        if(server.equals("catserver")){
+            Document cat = null;
+            try {
+                cat = Jsoup.connect("https://jenkins.rbqcloud.cn:30011/job/CatServer-" + version + "/").get();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Elements a = cat.getElementsByTag("a");
+            for(Element data : a){
+                if(data.attr("href").endsWith("jar")){
+                    System.out.println(data.attr("href"));
+                   return "https://jenkins.rbqcloud.cn:30011/job/CatServer-" + version + "/" + data.attr("href");
+                }
+            }
+            return null;
+        }
         if(server.contains("pufferfish")){
             // 先获取url前缀
             ArrayList<String> pfp_pp = new ArrayList<>();
