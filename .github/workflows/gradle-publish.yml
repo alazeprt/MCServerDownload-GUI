@@ -25,10 +25,10 @@ jobs:
           java-version: '17'
       - name: make gradle wrapper executable
         run: chmod +x ./gradlew
+      - name: Test (via JUnit Platform)
+        run: ./gradlew clean test
       - name: Build
         run: ./gradlew build
-      - name: Test (via JUnit Platform)
-        run: ./gradlew test
       - name: capture build artifacts
         uses: actions/upload-artifact@v3
         with:
