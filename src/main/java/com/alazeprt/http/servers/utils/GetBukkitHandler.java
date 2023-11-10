@@ -1,4 +1,4 @@
-package com.alazeprt.http.serverutils;
+package com.alazeprt.http.servers.utils;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GetBukkit {
+public class GetBukkitHandler {
     private static final Map<String, String> headerMap = new HashMap<>();
     public static String getDownloadUrl(String server, String version) {
         try {

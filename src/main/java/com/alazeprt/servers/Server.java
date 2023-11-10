@@ -7,7 +7,7 @@ public enum Server {
     CraftBukkit(2),
     Spigot(3),
     Paper(4),
-//    PufferFish(5),
+    PufferFish(5),
     Purpur(6);
 //    CatServer(7),
 //    Mohist(8);

@@ -1,10 +1,10 @@
-package com.alazeprt.http.serverutils;
+package com.alazeprt.http.servers.utils;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class GetBukkitTest {
+public class GetBukkitHandlerTest {
     @BeforeAll
     public static void setUp() {
         System.out.println("-------- Starting GetBukkitTest --------");
@@ -13,36 +13,36 @@ public class GetBukkitTest {
     @Test
     @DisplayName("getVanillaVersions")
     public void GetBukkitTest1() {
-        System.out.println(GetBukkit.getVersions("Spigot"));
+        System.out.println(GetBukkitHandler.getVersions("Spigot"));
     }
 
     @Test
     @DisplayName("getBukkitVersions")
     public void GetBukkitTest2() {
-        System.out.println(GetBukkit.getVersions("CraftBukkit"));
+        System.out.println(GetBukkitHandler.getVersions("CraftBukkit"));
     }
 
     @Test
     @DisplayName("getBukkitVersions")
     public void GetBukkitTest3() {
-        System.out.println(GetBukkit.getVersions("Vanilla"));
+        System.out.println(GetBukkitHandler.getVersions("Vanilla"));
     }
 
     @Test
     @DisplayName("getVanillaServerUrl")
     public void GetBukkitTest4() {
-        System.out.println(GetBukkit.getDownloadUrl("Vanilla", "1.14.3"));
+        System.out.println(GetBukkitHandler.getDownloadUrl("Vanilla", "1.14.3"));
     }
 
     @Test
     @DisplayName("getSpigotServerUrl")
     public void GetBukkitTest5() {
-        System.out.println(GetBukkit.getDownloadUrl("Spigot", "1.8.8"));
+        System.out.println(GetBukkitHandler.getDownloadUrl("Spigot", "1.8.8"));
     }
 
     @Test
     @DisplayName("getBukkitServerUrl")
     public void GetBukkitTest6() {
-        System.out.println(GetBukkit.getDownloadUrl("CraftBukkit", "1.20.1"));
+        System.out.println(GetBukkitHandler.getDownloadUrl("CraftBukkit", "1.20.1"));
     }
 }

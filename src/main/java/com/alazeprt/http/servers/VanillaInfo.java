@@ -1,17 +1,17 @@
 package com.alazeprt.http.servers;
 
-import com.alazeprt.http.serverutils.GetBukkit;
+import com.alazeprt.http.servers.utils.GetBukkitHandler;
 
 import java.util.List;
 
 public class VanillaInfo implements ServerInformation {
     @Override
     public String getServerUrl(String version) {
-        return GetBukkit.getDownloadUrl("vanilla", version);
+        return GetBukkitHandler.getDownloadUrl("vanilla", version);
     }
 
     @Override
     public List<String> getVersionList() {
-        return GetBukkit.getVersions("vanilla");
+        return GetBukkitHandler.getVersions("vanilla");
     }
 }
