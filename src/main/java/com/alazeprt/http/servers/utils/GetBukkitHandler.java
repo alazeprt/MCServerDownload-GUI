@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 public class GetBukkitHandler {
-    private static final Map<String, String> headerMap = new HashMap<>();
     public static String getDownloadUrl(String server, String version) {
         try {
             Element versionBody = getVersionBody(server);
@@ -34,7 +33,10 @@ public class GetBukkitHandler {
             if(versionUrl == null) {
                 throw new RuntimeException("Could not find version url");
             }
-            Document document1 = Jsoup.connect(versionUrl).headers(headerMap).get();
+            Document document1 = Jsoup.connect(versionUrl)
+                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+                    .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+                    .get();
             Elements elements1 = document1.select("div");
             Element downloadBody = null;
             for(Element element : elements1) {
@@ -70,7 +72,11 @@ public class GetBukkitHandler {
 
     private static Element getVersionBody(String server) {
         try {
-            Document document = Jsoup.connect("https://getbukkit.org/download/" + server.toLowerCase() + "/").headers(headerMap).get();
+            System.out.println("https://getbukkit.org/download/" + server.toLowerCase() + "/");
+            Document document = Jsoup.connect("https://getbukkit.org/download/" + server.toLowerCase() + "/")
+                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+                    .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+                    .get();
             Elements elements = document.select("div");
             Element versionBody = null;
             for(Element element : elements) {
@@ -85,10 +91,5 @@ public class GetBukkitHandler {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    static {
-        headerMap.put("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7");
-        headerMap.put("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36 Edg/118.0.2088.69");
     }
 }

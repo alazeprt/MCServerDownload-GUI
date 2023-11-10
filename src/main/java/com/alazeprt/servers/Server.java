@@ -1,21 +1,25 @@
 package com.alazeprt.servers;
 
+import com.alazeprt.http.servers.*;
+
 import java.util.*;
 
 public enum Server {
-    Vanilla(1),
-    CraftBukkit(2),
-    Spigot(3),
-    Paper(4),
-    PufferFish(5),
-    Purpur(6);
+    Vanilla(1, VanillaInfo.class),
+    CraftBukkit(2, CraftBukkitInfo.class),
+    Spigot(3, SpigotInfo.class),
+    Paper(4, PaperInfo.class),
+    PufferFish(5, PufferFishInfo.class),
+    Purpur(6, PurpurInfo.class),;
 //    CatServer(7),
 //    Mohist(8);
 
     private final int id;
+    private final Class<?> clazz;
 
-    Server(int id) {
+    Server(int id, Class<?> clazz) {
         this.id = id;
+        this.clazz = clazz;
     }
 
     public static Server getServerById(int id) {
@@ -42,5 +46,9 @@ public enum Server {
             list.add(server.name());
         }
         return list;
+    }
+
+    public static Class<?> getClassByServer(Server server) {
+        return server.clazz;
     }
 }

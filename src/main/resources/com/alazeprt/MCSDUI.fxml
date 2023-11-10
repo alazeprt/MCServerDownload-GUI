@@ -23,7 +23,7 @@
             <Font size="22.0" />
          </font>
       </Label>
-      <ChoiceBox fx:id="serverChoiceBox" layoutX="264.0" layoutY="133.0" prefHeight="35.0" prefWidth="270.0" />
+      <ChoiceBox fx:id="serverChoiceBox" layoutX="264.0" layoutY="133.0" onAction="#onServerChange" prefHeight="35.0" prefWidth="270.0" />
       <Label fx:id="mcVerLabel" layoutX="82.0" layoutY="199.0" text="MC版本" textFill="#a1a1a1">
          <font>
             <Font size="22.0" />
@@ -42,5 +42,6 @@
             <Image url="@icons/language.png" />
          </image>
       </ImageView>
+      <Label fx:id="getMcVersLavel" layoutX="253.0" layoutY="256.0" text="获取服务端MC版本中..." textFill="RED" />
    </children>
 </AnchorPane>
