@@ -1,47 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
+<?import java.lang.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="mainPane" prefHeight="360.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.alazeprt.MCSDController">
+<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.alazeprt.MCSDController">
    <children>
-      <Label layoutX="134.0" layoutY="14.0" text="MCServerDownload-GUI" textAlignment="CENTER" textFill="#a1a1a1">
+      <Label layoutX="52.0" layoutY="25.0" text="MCServerDownload-GUI" textFill="#4caf50">
          <font>
-            <Font size="36.0" />
+            <Font name="Microsoft YaHei UI Bold" size="28.0" />
          </font>
       </Label>
-      <Label fx:id="versionLabel" layoutX="150.0" layoutY="60.0" text="版本: 2.0.0 (重构版)       作者: alazeprt" textFill="#a1a1a1">
+      <Label layoutX="54.0" layoutY="68.0" text="版本: 2.0.0 (重构版)   |   作者: alazeprt" textAlignment="CENTER" textFill="#555555">
          <font>
-            <Font size="20.0" />
+            <Font name="Microsoft YaHei UI" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="serverLabel" layoutX="82.0" layoutY="136.0" text="服务端" textFill="#a1a1a1">
+      <Label layoutX="52.0" layoutY="119.0" text="服务端" textFill="#222222">
          <font>
-            <Font size="22.0" />
+            <Font name="Microsoft YaHei UI" size="18.0" />
          </font>
       </Label>
-      <ChoiceBox fx:id="serverChoiceBox" layoutX="264.0" layoutY="133.0" onAction="#onServerChange" prefHeight="35.0" prefWidth="270.0" />
-      <Label fx:id="mcVerLabel" layoutX="82.0" layoutY="199.0" text="MC版本" textFill="#a1a1a1">
+      <ChoiceBox fx:id="serverChoiceBox" layoutX="52.0" layoutY="154.0" onAction="#onServerChange" prefHeight="40.0" prefWidth="340.0" style="-fx-background-color: rgba(230,230,230,1);" />
+      <Label layoutX="52.0" layoutY="219.0" text="MC版本" textFill="#222222">
          <font>
-            <Font size="22.0" />
+            <Font name="Microsoft YaHei UI" size="18.0" />
          </font>
       </Label>
-      <ChoiceBox fx:id="mcVerChoiceBox" layoutX="264.0" layoutY="196.0" prefHeight="35.0" prefWidth="270.0" />
-      <Button layoutX="260.0" layoutY="273.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="120.0" style="-fx-background-color: rgba(240,240,240,0.8);" />
-      <ImageView fitHeight="55.0" fitWidth="109.0" layoutX="293.0" layoutY="273.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@icons/download.png" />
-         </image>
-      </ImageView>
-      <Button layoutX="575.0" layoutY="281.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: rgba(240,240,240,0.8);" />
-      <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="575.0" layoutY="281.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@icons/language.png" />
-         </image>
-      </ImageView>
-      <Label fx:id="getMcVersLavel" layoutX="253.0" layoutY="256.0" text="获取服务端MC版本中..." textFill="RED" />
+      <ChoiceBox fx:id="mcVerChoiceBox" layoutX="52.0" layoutY="254.0" prefHeight="40.0" prefWidth="340.0" style="-fx-background-color: rgba(230,230,230,1);" />
+      <Button fx:id="DownloadButton" layoutX="52.0" layoutY="324.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onDownloadServer" prefHeight="40.0" prefWidth="340.0" style="-fx-background-color: #4caf50;" text="下载" textFill="WHITE">
+         <font>
+            <Font name="Microsoft YaHei UI" size="16.0" />
+         </font></Button>
+      <Button layoutX="52.0" layoutY="394.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="340.0" style="-fx-background-color: #4caf50;" text="设置" textFill="WHITE">
+         <font>
+            <Font name="Microsoft YaHei UI" size="16.0" />
+         </font></Button>
+      <Label layoutX="52.0" layoutY="459.0" text="后台信息" textFill="#222222">
+         <font>
+            <Font name="Microsoft YaHei UI" size="18.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="backgroundInfo" editable="false" layoutX="52.0" layoutY="493.0" prefHeight="120.0" prefWidth="340.0">
+         <font>
+            <Font name="Consolas" size="12.0" />
+         </font></TextArea>
    </children>
 </AnchorPane>

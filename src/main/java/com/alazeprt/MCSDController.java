@@ -1,58 +1,57 @@
 package com.alazeprt;
 
+import com.alazeprt.http.utils.MultiThreadDownloader;
 import com.alazeprt.servers.Server;
-import javafx.animation.FadeTransition;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.layout.*;
-import javafx.util.Duration;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import static com.alazeprt.http.utils.MultiThreadDownloader.maxProgress;
+import static com.alazeprt.http.utils.MultiThreadDownloader.progress;
 import static javafx.collections.FXCollections.observableList;
 
 public class MCSDController {
     @FXML
+    public TextArea backgroundInfo;
+
+    @FXML
     private AnchorPane mainPane;
 
     @FXML
-    private Label versionLabel;
-
-    @FXML
-    private Label serverLabel;
-
-    @FXML
-    private Label mcVerLabel;
-
-    @FXML
-    private Label getMcVersLavel;
+    private Button DownloadButton;
 
     @FXML
     private ChoiceBox<String> mcVerChoiceBox;
 
     @FXML
     private ChoiceBox<String> serverChoiceBox;
-    private static boolean UpdatingVersions = false;
     private static List<String> mcVers = new ArrayList<>();
 
     public void initialize() {
-        getMcVersLavel.setVisible(false);
-        mainPane.setBackground(new Background(new BackgroundImage(new Image(String.valueOf(this.getClass().getResource("backgrounds/background_image.png")), 640, 360, false, false), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
         serverChoiceBox.setItems(observableList(Server.getServers()));
         serverChoiceBox.setValue(Server.CraftBukkit.name());
+        backgroundInfo.textProperty().addListener((ChangeListener<Object>) (observable, oldValue, newValue) -> {
+            backgroundInfo.setScrollTop(Double.MAX_VALUE); //this will scroll to the bottom
+            //use Double.MIN_VALUE to scroll to the top
+        });
     }
 
     @FXML
     public void onServerChange() {
-        UpdatingVersions = true;
-        getMcVersLavel.setVisible(true);
+        backgroundInfo.appendText("正在获取 " + serverChoiceBox.getValue() + " 服务端的版本信息...\n");
         mcVerChoiceBox.setDisable(true);
+        serverChoiceBox.setDisable(true);
+        DownloadButton.setDisable(true);
         Thread thread = new Thread(() -> {
             try {
                 Class<?> clazz = Server.getClassByServer(Server.getServerByName(serverChoiceBox.getValue()));
@@ -63,24 +62,66 @@ public class MCSDController {
                     mcVerChoiceBox.setItems(observableList(mcVers));
                     mcVerChoiceBox.setValue(mcVers.get(0));
                     mcVerChoiceBox.setDisable(false);
+                    serverChoiceBox.setDisable(false);
+                    DownloadButton.setDisable(false);
+                    backgroundInfo.appendText("成功获取 " + serverChoiceBox.getValue() + " 服务端的版本信息!\n");
                 });
-                fadeOutLabel(getMcVersLavel);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            UpdatingVersions = false;
         });
         thread.start();
     }
 
-    private void fadeOutLabel(Label label) {
-        FadeTransition fadeTransition = new FadeTransition(Duration.seconds(3), label);
-        fadeTransition.setFromValue(1.0);
-        fadeTransition.setToValue(0.0);
-        fadeTransition.setOnFinished(event -> {
-            label.setVisible(false);
-            label.setOpacity(1.0);
+    @FXML
+    public void onDownloadServer() {
+        backgroundInfo.appendText("准备开始下载 " + serverChoiceBox.getValue() + " 服务端 " + mcVerChoiceBox.getValue() + " 版本...\n");
+        DownloadButton.setDisable(true);
+        mcVerChoiceBox.setDisable(true);
+        serverChoiceBox.setDisable(true);
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("选择保存服务端的位置");
+        File file = fileChooser.showSaveDialog(mainPane.getScene().getWindow());
+        if (file == null) {
+            backgroundInfo.appendText("未选择文件路径!\n");
+            DownloadButton.setDisable(false);
+            mcVerChoiceBox.setDisable(false);
+            serverChoiceBox.setDisable(false);
+            return;
+        }
+        Thread thread = new Thread(() -> {
+            try {
+                Platform.runLater(() -> {
+                    backgroundInfo.appendText("正在获取 " + serverChoiceBox.getValue() + " 服务端 " + mcVerChoiceBox.getValue() + " 版本的下载链接...\n");
+                });
+                Class<?> clazz = Server.getClassByServer(Server.getServerByName(serverChoiceBox.getValue()));
+                Method method = clazz.getMethod("getServerUrl", String.class);
+                Object instance = clazz.getConstructor().newInstance();
+                String url = (String) method.getReturnType().cast(method.invoke(instance, mcVerChoiceBox.getValue()));
+                Platform.runLater(() -> backgroundInfo.appendText("开始下载 " + serverChoiceBox.getValue() + " 服务端 " + mcVerChoiceBox.getValue() + " 版本...\n"));
+                Thread thread1 = new Thread(() -> {
+                    while(progress < maxProgress) {
+                        Platform.runLater(() -> backgroundInfo.appendText("下载进度: " + progress + " / " + maxProgress + "\n"));
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
+                MultiThreadDownloader.downloadFile(url, file.getAbsolutePath(), 16, thread1);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            Platform.runLater(() -> {
+                backgroundInfo.appendText("成功下载 " + serverChoiceBox.getValue() + " 服务端 " + mcVerChoiceBox.getValue() + " 版本!\n");
+                DownloadButton.setDisable(false);
+                mcVerChoiceBox.setDisable(false);
+                serverChoiceBox.setDisable(false);
+            });
+            maxProgress = -1;
+            progress = -1;
         });
-        fadeTransition.play();
+        thread.start();
     }
 }
