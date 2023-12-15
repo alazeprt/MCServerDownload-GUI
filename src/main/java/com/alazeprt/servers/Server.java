@@ -10,9 +10,9 @@ public enum Server {
     Spigot(3, SpigotInfo.class),
     Paper(4, PaperInfo.class),
     PufferFish(5, PufferFishInfo.class),
-    Purpur(6, PurpurInfo.class),;
-//    CatServer(7),
-//    Mohist(8);
+    Purpur(6, PurpurInfo.class),
+    CatServer(7, CatServerInfo.class),
+    Mohist(8, MohistInfo.class);
 
     private final int id;
     private final Class<?> clazz;

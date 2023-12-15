@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 
 public class PufferFishHandler {
 
-    public Set<String> getServers() {
+    public static Set<String> getServers() {
         Set<String> stringSet = new HashSet<>();
         for(Element element : getServersElement().select("tr")) {
             if(!element.attr("id").isEmpty()) {
@@ -23,7 +23,7 @@ public class PufferFishHandler {
         return stringSet;
     }
 
-    public Set<String> getVersions(String server) {
+    public static Set<String> getVersions(String server) {
         Set<String> stringSet = new HashSet<>();
         for(Element element : getServersElement().select("tr")) {
             if(!element.attr("id").isEmpty() && element.attr("id").split("_")[1].replaceAll("-?\\d+\\.\\d+(\\.\\d+)*", "").equalsIgnoreCase(server)) {
@@ -38,7 +38,7 @@ public class PufferFishHandler {
         return stringSet;
     }
 
-    public String getDownloadUrl(String server, String version) {
+    public static String getDownloadUrl(String server, String version) {
         try {
             for(Element element : getServersElement().select("tr")) {
                 if(!element.attr("id").isEmpty() && element.attr("id").split("_")[1].replaceAll("-?\\d+\\.\\d+(\\.\\d+)*", "").equalsIgnoreCase(server)) {

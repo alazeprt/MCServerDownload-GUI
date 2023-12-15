@@ -1,6 +1,6 @@
 package com.alazeprt;
 
-import com.alazeprt.http.utils.MultiThreadDownloader;
+import com.alazeprt.http.utils.SingleThreadDownloader;
 import com.alazeprt.servers.Server;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -16,8 +16,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.alazeprt.http.utils.MultiThreadDownloader.maxProgress;
-import static com.alazeprt.http.utils.MultiThreadDownloader.progress;
+import static com.alazeprt.http.utils.SingleThreadDownloader.maxProgress;
+import static com.alazeprt.http.utils.SingleThreadDownloader.progress;
 import static javafx.collections.FXCollections.observableList;
 
 public class MCSDController {
@@ -109,7 +109,7 @@ public class MCSDController {
                         }
                     }
                 });
-                MultiThreadDownloader.downloadFile(url, file.getAbsolutePath(), 16, thread1);
+                SingleThreadDownloader.downloadFile(url, file.getAbsolutePath(), thread1);
             } catch (Exception e) {
                 e.printStackTrace();
             }
