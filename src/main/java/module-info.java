@@ -1,4 +1,4 @@
-module com.alazeprt.MCSDUI {
+module com.alazeprt {
     requires javafx.base;
     requires javafx.controls;
     requires org.jsoup;
