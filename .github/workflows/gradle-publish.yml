@@ -12,6 +12,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macOS-latest, windows-latest]
+        java: [ '17' ]
       fail-fast: false
     name: ${{ matrix.os }}
     steps:
@@ -25,7 +26,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: ${{ matrix.java }}
       - name: Make Gradle wrapper executable
         run: chmod +x ./gradlew
       - name: Execute build
@@ -37,25 +38,25 @@ jobs:
       - name: Upload DMG as an artifact
         uses: actions/upload-artifact@v2
         with:
-          name: MCServerDownload-GUI-jdk${{ matrix.java }}-${{ matrix.os }}-dmg
+          name: MCServerDownload-GUI-jdk${{ matrix.java }}-macos-dmg
           path: build/installer/*.dmg
       - name: Upload EXE as an artifact
         uses: actions/upload-artifact@v2
         with:
-          name: MCServerDownload-GUI-jdk${{ matrix.java }}-${{ matrix.os }}-exe
+          name: MCServerDownload-GUI-jdk${{ matrix.java }}-windows-exe
           path: build/installer/*.exe
       - name: Upload MSI as an artifact
         uses: actions/upload-artifact@v2
         with:
-          name: MCServerDownload-GUI-jdk${{ matrix.java }}-${{ matrix.os }}-msi
+          name: MCServerDownload-GUI-jdk${{ matrix.java }}-windows-msi
           path: build/installer/*.msi
       - name: Upload DEB as an artifact
         uses: actions/upload-artifact@v2
         with:
-          name: MCServerDownload-GUI-jdk${{ matrix.java }}-${{ matrix.os }}-deb
+          name: MCServerDownload-GUI-jdk${{ matrix.java }}-linux-deb
           path: build/installer/*.deb
       - name: Upload RPM as an artifact
         uses: actions/upload-artifact@v2
         with:
-          name: MCServerDownload-GUI-jdk${{ matrix.java }}-${{ matrix.os }}-rpm
+          name: MCServerDownload-GUI-jdk${{ matrix.java }}-linux-rpm
           path: build/installer/*.rpm
