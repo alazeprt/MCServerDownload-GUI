@@ -4,13 +4,16 @@
 # against bad commits.
 
 name: MCServerDownload-GUI Build
-on: push
+on: [push, pull_request]
 
 jobs:
   build:
-    # Only run on PRs if the source branch is on someone else's repo
-    if: ${{ github.event_name != 'pull_request' || github.repository != github.event.pull_request.head.repo.full_name }}
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+      fail-fast: false
+    name: ${{ matrix.os }}
     steps:
       - name: Checkout Git Repository
         uses: actions/checkout@v3
@@ -23,13 +26,36 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-      - name: make gradle wrapper executable
+      - name: Make Gradle wrapper executable
         run: chmod +x ./gradlew
-      - name: Build
-        run: ./gradlew build
-      - name: capture build artifacts
-        uses: actions/upload-artifact@v3
+      - name: Execute build
+        run: ./gradlew --info --stacktrace build
+      - name: Execute jlink
+        run: ./gradlew --info --stacktrace jlink
+      - name: Execute jpackage
+        run: ./gradlew --info --stacktrace jpackage
+      - name: Upload DMG as an artifact
+        uses: actions/upload-artifact@v2
         with:
-          name: Artifacts
-          path: |
-            build/libs/
+          name: MCServerDownload-GUI-jdk${{ matrix.java }}-${{ matrix.os }}-dmg
+          path: build/installer/*.dmg
+      - name: Upload EXE as an artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: MCServerDownload-GUI-jdk${{ matrix.java }}-${{ matrix.os }}-exe
+          path: build/installer/*.exe
+      - name: Upload MSI as an artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: MCServerDownload-GUI-jdk${{ matrix.java }}-${{ matrix.os }}-msi
+          path: build/installer/*.msi
+      - name: Upload DEB as an artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: MCServerDownload-GUI-jdk${{ matrix.java }}-${{ matrix.os }}-deb
+          path: build/installer/*.deb
+      - name: Upload RPM as an artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: MCServerDownload-GUI-jdk${{ matrix.java }}-${{ matrix.os }}-rpm
+          path: build/installer/*.rpm
